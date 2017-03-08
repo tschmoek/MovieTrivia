@@ -1,6 +1,6 @@
 # README #
 
-## OBJECTIVE ## 
+## OBJECTIVE  
 Using the OMDb API, create a game that pits two players against each other to test their movie knowledge in realtime.
 REQUIREMENTS
 * Allow two players to join a game
@@ -27,7 +27,7 @@ REQUIREMENTS
 * Eleguence of Code
 * Functional (points for each requirement met; different requirements will be weighted differently)
 * Creativity
-## RESOURCES ## 
+## RESOURCES 
 * http://www.omdbapi.com/
 ## TIPS ##
 * Choose a leader to help manage the project
