@@ -1,0 +1,13 @@
+#poster-img {
+  display: block;
+  margin: 0 auto;
+}
+#movie-header {
+  text-align: center;
+}
+#count-down {
+  text-align: center;
+}
+#start-timer {
+  text-align: center;
+}
