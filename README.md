@@ -2,7 +2,7 @@
 
 ## OBJECTIVE  
 Using the OMDb API, create a game that pits two players against each other to test their movie knowledge in realtime.
-REQUIREMENTS
+## REQUIREMENTS
 * Allow two players to join a game
 * A random player starts the game by choosing a movie (prompt)
 * X seconds after the prompt movie is displayed, set a timer for Y seconds
