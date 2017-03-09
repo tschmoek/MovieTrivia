@@ -10,13 +10,15 @@ app.get('/', function (req, res) {
 let players = new Map();
 let started = false;
 let whoStarts;
+let nextRoundStart;
+let curMovie;
 
 io.on('connection', function (socket) {
   console.log('connection acquired');
   console.log(socket.id);
 
   socket.emit('client id', {
-    clientid : socket.id
+    clientid: socket.id
   });
 
   socket.on('join game', function (data) {
@@ -40,33 +42,42 @@ io.on('connection', function (socket) {
 
     if (started == false && players.size == 2) {
       started = true;
-      let nextRoundStart;
+
       for (var [clientid, data] of players.entries()) {
-        if(clientid == whoStarts) {
+        if (clientid == whoStarts) {
           io.to(clientid).emit('start game', {
-            yourTurn : true
+            yourTurn: true
           });
         } else {
           nextRoundStart = clientid;
           io.to(clientid).emit('start game', {
-            yourTurn : false
+            yourTurn: false
           })
         }
       }
-      whoStarts = nextRoundStart;
     }
   });
 
-  socket.on('select movie', function () {
-    
+  socket.on('select movie', function (data) {
+    console.log('select movie request');
+    console.log(data);
+
+    if(whoStarts == data.clientid) {
+      curMovie = data.imdbId;
+      io.emit('start round', {
+        timer : 30,
+        imdbId : curMovie
+      })
+      setTimeout(function() {
+        io.emit('round end', {
+          
+        });
+      }, 30000);
+    }
   });
 
   socket.on('guess movie', function () {
 
-  });
-
-  socket.on('chat message', function (msg) {
-    io.emit('chat message', msg);
   });
 
 });
