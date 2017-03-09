@@ -1,13 +1,49 @@
-#poster-img {
+body{
+  background: url("images/background.jpg");
+  background-repeat: repeat-y;
+  background-size: 100%;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+}
+h1{
+  font-size: 50px;
+}
+li{
+  text-align: left;
+}
+.container{
+  background-color: rgba(0, 0, 0, 0.85);
+  width: 50%;
   display: block;
+  margin: 7.5% auto;
+  padding: 25px;
+}
+#choose-movie{
+  margin-bottom: 50px;
+}
+#search-bar{
+  width: 60%;
+  font-size: 20px;
+}
+#start-timer{
+  font-size: 6em;
   margin: 0 auto;
 }
-#movie-header {
-  text-align: center;
+#game-timer{
+  font-size: 6em;
+  margin: 0 auto;
 }
-#count-down {
-  text-align: center;
+
+#welcome{
+  display: none;
 }
-#start-timer {
-  text-align: center;
+#poster{
+  display: none;
+}
+/*#search{
+  display: none;
+}*/
+#results{
+  display: none;
 }

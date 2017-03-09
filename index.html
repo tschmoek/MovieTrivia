@@ -5,15 +5,147 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Open Movie Database Trivia</title>
 </head>
 
 <body>
-    <div id="poster">
-        <h1 id = "movie-header">Selected Movie</h1>
-        <img id = "poster-img" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMjMxOTM1OTI4MV5BMl5BanBnXkFtZTgwODE5OTYxMDI@._V1_SX300.jpg"></img>
-        <<h3 id="start-timer"></h3>>
+    <div class="container">
         
+        <div id="welcome">         
+            <h2>Ready to play</h2>
+            <h1>Open Movie Database Trivia?</h1>
+            <h2>Start by choosing a movie using the search bar below:</h2>
+            <form id="choose-movie" action="/my-handling-form-page" method="post">
+                <div>
+                    <input type="text" id="search-bar" name="movie_header">
+                </div>
+            </form>
+        </div>
+
+        <div id="poster">         
+            <h2>List all the movies you can in</h2>
+            <h1>3 minutes</h1>
+            <h2>where an actor also appears in</h2>
+            <h1 id="movie-header">Fantastic Beasts and Where to Find Them</h1>
+            <img id="poster-img" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMjMxOTM1OTI4MV5BMl5BanBnXkFtZTgwODE5OTYxMDI@._V1_SX300.jpg">
+            <h1>Start in:</h1>
+            <h3 id="start-timer"></h3>
+        </div>
+
+        <div id="search">         
+            <h1>Time Remaining:</h1>
+            <h3 id="game-timer"></h3>
+            <h2>seconds to search for movies that have an actor that was also in</h2>
+            <h1 id="movie-header">Fantastic Beasts and Where to Find Them</h1>
+            <form id="choose-movie" action="/my-handling-form-page" method="post">
+                <div>
+                    <input type="text" id="search-bar" name="movie_header">
+                </div>
+            </form>
+
+            <h2>Your Guesses</h2>
+            <ul>
+                <li>Harry Potter 1</li>
+                <li>Harry Potter 2</li>
+                <li>Harry Potter 3</li>
+                <li>Harry Potter 4</li>
+                <li>Harry Potter 5</li>
+                <li>Harry Potter 6</li>
+            </ul>
+
+            <br/>
+            <br/>
+
+            <h2>Your Opponent's Guesses</h2>
+            <ul>
+                <li>Harry Potter 1</li>
+                <li>Harry Potter 2</li>
+                <li>Harry Potter 3</li>
+                <li>Harry Potter 4</li>
+                <li>Harry Potter 5</li>
+                <li>Harry Potter 6</li>
+            </ul>
+        </div>
+
+        <div id="results">         
+            <h1>Open Movie Database Trivia Results</h1>
+
+            <table id="player1-results">
+                <tr>
+                    <th>Guess</th>
+                    <th>Points</th>
+                </tr>
+                <tr>
+                    <td>Harry Potter 1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Harry Potter 2</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Harry Potter 3</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Harry Potter 4</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Harry Potter 5</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Harry Potter 6</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>TOTAL</td>
+                    <td>6</td>
+                </tr>
+            </table>
+
+            <br/><br/>
+
+            <table id="player2-results">
+                <tr>
+                    <th>Guess</th>
+                    <th>Points</th>
+                </tr>
+                <tr>
+                    <td>Harry Potter 1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Harry Potter 2</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Harry Potter 3</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Harry Potter 4</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Harry Potter 5</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Harry Potter 6</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>TOTAL</td>
+                    <td>6</td>
+                </tr>
+            </table>
+        </div>
+
     </div>
 </body>
 <script type="text/javascript" src="script.js"></script>
