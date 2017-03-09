@@ -6,24 +6,89 @@ body{
   font-family: 'Roboto', sans-serif;
   text-align: center;
 }
+button{
+  font-size: 2em;
+  color: black;
+  background-color: white;
+  border: none;
+}
+button:hover{
+  color: white;
+  background-color: black;
+  cursor: pointer;
+}
 h1{
   font-size: 50px;
+  margin-top: 0;
 }
-li{
+table{
+  border-collapse: collapse;
+}
+th{
   text-align: left;
+  padding: 0.5em 1em;
 }
+td{
+  text-align: left;
+  padding: 0.1em 1em;
+}
+.points{
+  opacity: 0;
+}
+.total{
+  padding: 0.5em 1em;
+  opacity: 0;
+}
+
 .container{
+  display: flex;
+  justify-content: center;
+}
+#player1-bar{
+  flex: 1 1;
+  order: 1;
   background-color: rgba(0, 0, 0, 0.85);
-  width: 50%;
-  display: block;
-  margin: 7.5% auto;
+  margin: 5% 0 5% 3%;
+  padding: 25px;
+  opacity: 0;
+}
+#main{
+  flex: 2 2;
+  order: 2;
+  background-color: rgba(0, 0, 0, 0.85);
+  margin: 5% 1%;
   padding: 25px;
 }
+#player2-bar{
+  flex: 1 1;
+  order: 3;
+  background-color: rgba(0, 0, 0, 0.85);
+  margin: 5% 3% 5% 0;
+  padding: 25px;
+  opacity: 0;
+}
+
+#welcome{
+  display: none;
+}
+#welcome2{
+  display:none;
+}
+#poster{
+  display: none;
+}
+#search{
+  display: none;
+}
+#after-game{
+  display: none;
+}
+
 #choose-movie{
   margin-bottom: 50px;
 }
 #search-bar{
-  width: 60%;
+  width: 95%;
   font-size: 20px;
 }
 #start-timer{
@@ -34,20 +99,6 @@ li{
   font-size: 6em;
   margin: 0 auto;
 }
-
-#welcome{
-  display: none;
-}
-
-#welcome2{
-  display:none;
-}
-#poster{
-  display: none;
-}
-#search{
-  display: none;
-}
-#results{
-  display: none;
+#poster-img{
+  margin-bottom: 50px;
 }
