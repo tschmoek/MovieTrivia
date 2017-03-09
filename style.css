@@ -38,12 +38,16 @@ li{
 #welcome{
   display: none;
 }
+
+#welcome2{
+  display:none;
+}
 #poster{
   display: none;
 }
-/*#search{
+#search{
   display: none;
-}*/
+}
 #results{
   display: none;
 }
