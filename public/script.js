@@ -5,7 +5,8 @@ let count2= 180;
     var socket = io();
     var clientid;
     var turn;
-    $('form').submit(function(){
+    $("#joinGame").click(function(){
+      console.log("This worked");
       socket.emit('join game', {
         clientid : clientid
       });
