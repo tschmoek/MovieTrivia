@@ -6,7 +6,6 @@ let count2= 180;
     var clientid;
     var turn;
     $("#joinGame").click(function(){
-      console.log("This worked");
       socket.emit('join game', {
         clientid : clientid
       });
@@ -28,12 +27,15 @@ let count2= 180;
 
     socket.on('start game', function(data) {
       console.log(data);
+      console.log('STARTING NEW GAME')
       if(data['yourTurn'] === true){
         console.log('MY TURN');
-        turn = true;
+        gameStart();
         
       }else{
         console.log('THEIR TURN');
+        gameStart2();
+
       }
     });
    
@@ -41,6 +43,7 @@ let count2= 180;
           clientid : clientid,
           imbId: 1
         });
+
   });
 
 window.onload = () => {
@@ -53,9 +56,20 @@ document.getElementById("joinGame").onclick = function () {
  };
 
 
-document.getElementById("startButton").onclick = function () { 
+let gameStart = function () { 
     document.getElementById("welcome").style.display = "none";
-    document.getElementById("poster").style.display = "block";
+    document.getElementById("selectMovie").style.display = "block";
+    let startTimer = document.getElementById("start-timer");
+    gameBeginCountDown(count + 1, startTimer);
+    if(document.getElementById("start-timer").innerHTML=== "0")
+    {
+        console.log("This worked!");
+    }
+ };
+
+ let gameStart2 = function () { 
+    document.getElementById("welcome").style.display = "none";
+    document.getElementById("welcome2").style.display = "block";
     let startTimer = document.getElementById("start-timer");
     gameBeginCountDown(count + 1, startTimer);
     if(document.getElementById("start-timer").innerHTML=== "0")
