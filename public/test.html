@@ -2,17 +2,6 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-      #messages { margin-bottom: 40px }
-    </style>
   </head>
   <body>
     <ul id="messages"></ul>
@@ -25,6 +14,7 @@
       $(function () {
         var socket = io();
         var clientid;
+        var turn;
         $('form').submit(function(){
           socket.emit('join game', {
             clientid : clientid
@@ -34,13 +24,31 @@
         socket.on('client id', function(data) {
           clientid = data.clientid;
           console.log(data);
+          console.log('CLIENT ID on client side..',clientid);
         });
         socket.on('join game', function(data){
           console.log(data);
+          console.log('JOIN GAME on client side..',data);
+          if(data['joined'] === true){
+            console.log('JOINED GAME')
+          }
         });
+
         socket.on('start game', function(data) {
           console.log(data);
-        })
+          if(data['yourTurn'] === true){
+            console.log('MY TURN');
+            turn = true;
+            
+          }else{
+            console.log('THEIR TURN');
+          }
+        });
+       
+        socket.emit('select movie', {      
+              clientid : clientid,
+              imbId: 1
+            });
       });
     </script>
   </body>

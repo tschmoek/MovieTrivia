@@ -1,10 +1,12 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 
+app.use(express.static(__dirname + '/public'));
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(path.join(__dirname,'public', 'index.html'));
 });
 
 let players = new Map();
@@ -61,6 +63,7 @@ io.on('connection', function (socket) {
   socket.on('select movie', function (data) {
     console.log('select movie request');
     console.log(data);
+    console.log(data.clientid);
 
     if(whoStarts == data.clientid) {
       curMovie = data.imdbId;
