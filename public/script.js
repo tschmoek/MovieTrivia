@@ -1,9 +1,56 @@
 let count = 10;
 let count2= 180;
 
+  $(function () {
+    var socket = io();
+    var clientid;
+    var turn;
+    $('form').submit(function(){
+      socket.emit('join game', {
+        clientid : clientid
+      });
+      return false;
+    });
+    socket.on('client id', function(data) {
+      clientid = data.clientid;
+      console.log(data);
+      console.log('CLIENT ID on client side..',clientid);
+    });
+
+    socket.on('join game', function(data){
+      console.log(data);
+      console.log('JOIN GAME on client side..',data);
+      if(data['joined'] === true){
+        console.log('JOINED GAME')
+      }
+    });
+
+    socket.on('start game', function(data) {
+      console.log(data);
+      if(data['yourTurn'] === true){
+        console.log('MY TURN');
+        turn = true;
+        
+      }else{
+        console.log('THEIR TURN');
+      }
+    });
+   
+    socket.emit('select movie', {      
+          clientid : clientid,
+          imbId: 1
+        });
+  });
+
 window.onload = () => {
     document.getElementById("welcome").style.display = "block"
 };
+
+
+document.getElementById("joinGame").onclick = function () { 
+    //Join game, move to next screen for selecting movie
+ };
+
 
 document.getElementById("startButton").onclick = function () { 
     document.getElementById("welcome").style.display = "none";

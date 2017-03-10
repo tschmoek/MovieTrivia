@@ -66,7 +66,7 @@
                         <input type="text" id="search-bar" name="movie_header">
                     </div>
                 </form>
-                <button id="startButton" type="submit">Start</button>
+                <button id="joinGame" type="submit">Join</button>
             </div>
 
             <div id="welcome2">         
@@ -149,45 +149,4 @@
     </div>
 </body>
 <script type="text/javascript" src="script.js"></script>
-<script>
-      $(function () {
-        var socket = io();
-        var clientid;
-        var turn;
-        $('form').submit(function(){
-          socket.emit('join game', {
-            clientid : clientid
-          });
-          return false;
-        });
-        socket.on('client id', function(data) {
-          clientid = data.clientid;
-          console.log(data);
-          console.log('CLIENT ID on client side..',clientid);
-        });
-        socket.on('join game', function(data){
-          console.log(data);
-          console.log('JOIN GAME on client side..',data);
-          if(data['joined'] === true){
-            console.log('JOINED GAME')
-          }
-        });
-
-        socket.on('start game', function(data) {
-          console.log(data);
-          if(data['yourTurn'] === true){
-            console.log('MY TURN');
-            turn = true;
-            
-          }else{
-            console.log('THEIR TURN');
-          }
-        });
-       
-        socket.emit('select movie', {      
-              clientid : clientid,
-              imbId: 1
-            });
-      });
-    </script>
 </html>
