@@ -1,13 +1,92 @@
 let count = 10;
 let count2= 180;
 
+  $(function () {
+    var socket = io();
+    var clientid;
+    var turn;
+    $("#joinGame").click(function(){
+      socket.emit('join game', {
+        clientid : clientid
+      });
+      return false;
+    });
+    socket.on('client id', function(data) {
+      clientid = data.clientid;
+      console.log(data);
+      console.log('CLIENT ID on client side..',clientid);
+    });
+
+    socket.on('join game', function(data){
+      console.log(data);
+      console.log('JOIN GAME on client side..',data);
+      if(data['joined'] === true){
+        console.log('JOINED GAME')
+      }
+    });
+
+    socket.on('start game', function(data) {
+      console.log(data);
+      console.log('STARTING NEW GAME')
+      if(data['yourTurn'] === true){
+        console.log('MY TURN');
+        gameStart();
+        
+      }else{
+        console.log('THEIR TURN');
+        gameStart2();
+
+      }
+    });
+   $('#choose').click(function(){
+    let imbdid = api();
+
+    socket.emit('select movie', {      
+          clientid : clientid,
+          imbId: imbdid.id
+        });
+   });
+    
+
+  });
+
 window.onload = () => {
     document.getElementById("welcome").style.display = "block"
 };
 
-document.getElementById("startButton").onclick = function () { 
+ let api = function() {
+  var title = document.getElementById("search-bar").value;
+  var url = "http://www.omdbapi.com/?t=" + title;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", url, false);
+  xhttp.send();
+  var response = JSON.parse(xhttp.responseText);
+  console.log('response: ', response);
+  console.log('actors: ', response.Actors);
+  return response;
+  // var playerTable = document.getElementById('player1-results');
+  // var row = playerTable.insertRow(playerTable.rows.length);
+  // var movieTitle = row.insertCell(0);
+  // var point = row.insertCell(1);
+  // movieTitle.innerHTML = response.Title;
+  // point.innerHTML = "1"; //dummy point
+};
+
+
+let gameStart = function () { 
     document.getElementById("welcome").style.display = "none";
-    document.getElementById("poster").style.display = "block";
+    document.getElementById("selectMovie").style.display = "block";
+    let startTimer = document.getElementById("start-timer");
+    gameBeginCountDown(count + 1, startTimer);
+    if(document.getElementById("start-timer").innerHTML=== "0")
+    {
+        console.log("This worked!");
+    }
+ };
+
+ let gameStart2 = function () { 
+    document.getElementById("welcome").style.display = "none";
+    document.getElementById("welcome2").style.display = "block";
     let startTimer = document.getElementById("start-timer");
     gameBeginCountDown(count + 1, startTimer);
     if(document.getElementById("start-timer").innerHTML=== "0")

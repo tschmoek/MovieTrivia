@@ -84,6 +84,10 @@ td{
   display: none;
 }
 
+#selectMovie{
+  display: none;
+}
+
 #choose-movie{
   margin-bottom: 50px;
 }
