@@ -86,7 +86,7 @@ let gameStart = function () {
 
  let gameStart2 = function () { 
     document.getElementById("welcome").style.display = "none";
-    document.getElementById("welcome2").style.display = "block";
+    document.getElementById("wait").style.display = "block";
     let startTimer = document.getElementById("start-timer");
     gameBeginCountDown(count + 1, startTimer);
     if(document.getElementById("start-timer").innerHTML=== "0")
