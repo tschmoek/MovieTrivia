@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Open Movie Database Trivia</title>
+</head>
+
+<body>
+  <!-- <form id="choose-movie"> -->
+    <div>
+      <label>title: </label>
+      <input type="text" id="search-bar" name="movie_header">
+      <button onclick="searchByTitle()">Submit</button>
+    </div>
+  <!-- </form> -->
+  <!-- <button onclick="searchByTitle('fantastic beasts')">let's see if it worked</button> -->
+
+  <table id="player1-results">
+      <tr>
+          <th>Movie Title</th>
+          <th class="points">Points</th>
+      </tr>
+      <tr>
+          <td>Harry Potter 1</td>
+          <td class="points">1</td>
+      </tr>
+      <tr>
+          <td>Harry Potter 6</td>
+          <td class="points">1</td>
+      </tr>
+      <tr>
+          <td class="total">TOTAL</td>
+          <td class="total">6</td>
+      </tr>
+  </table>
+
+
+</body>
+<script type="text/javascript" src="omdbApi.js"></script>
+</html>
