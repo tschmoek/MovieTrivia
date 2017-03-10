@@ -45,7 +45,15 @@ let count2= 180;
           clientid : clientid,
           imbId: imbdid.id
         });
+    socket.emit('start round',function(data){
+
+    });
    });
+   
+   socket.emit('guess movie',function(data){
+        imbdid = api().id;
+        clientid : clientid
+    });
     
 
   });
