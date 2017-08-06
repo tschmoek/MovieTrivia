@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+:<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
@@ -12,45 +11,14 @@
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 </head>
-
 <body>
     <div id="container">
-
         <div id="player1-bar">
             <h2>Your Guesses</h2>
             <div class="results">
                 <table id="player1-results">
                     <tr>
                         <th>Movie Title</th>
-                        <th class="points">Points</th>
-                    </tr>
-                    <tr>
-                        <td>Harry Potter 1</td>
-                        <td class="points">1</td>
-                    </tr>
-                    <tr>
-                        <td>Harry Potter 2</td>
-                        <td class="points">1</td>
-                    </tr>
-                    <tr>
-                        <td>Harry Potter 3</td>
-                        <td class="points">1</td>
-                    </tr>
-                    <tr>
-                        <td>Harry Potter 4</td>
-                        <td class="points">1</td>
-                    </tr>
-                    <tr>
-                        <td>Harry Potter 5</td>
-                        <td class="points">1</td>
-                    </tr>
-                    <tr>
-                        <td>Harry Potter 6</td>
-                        <td class="points">1</td>
-                    </tr>
-                    <tr>
-                        <td class="total">TOTAL</td>
-                        <td class="total">6</td>
                     </tr>
                 </table>
             </div>
@@ -66,12 +34,10 @@
             <div id="selectMovie">
                 <h1>Open Movie Database Trivia</h1>
                 <h2>Use the search bar to select a prompt movie:</h2>
-                <form id="choose-movie" action="/my-handling-form-page" method="post">
-                    <div>
-                        <input type="text" id="search-bar" name="movie_header">
-                    </div>
-                    <button id="choose" type="submit">Start</button>
-                </form>
+                <div>
+                    <input type="text" id="select-search-bar" name="movie_header">
+                </div>
+                <button id="selection">Start</button>
             </div>
 
             <div id="wait">
@@ -80,43 +46,44 @@
                 <h2>Please wait while your opponent chooses the prompt movie.</h2>
             </div>
 
-            <div id="poster">
+            <!--<div id="poster">
                 <h2>List all the movies you can in</h2>
                 <h1>3 minutes</h1>
                 <h2>where an actor also appears in</h2>
                 <h1 id="movie-header">Fantastic Beasts and Where to Find Them</h1>
                 <img id="poster-img" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMjMxOTM1OTI4MV5BMl5BanBnXkFtZTgwODE5OTYxMDI@._V1_SX300.jpg">
                 <h1>Start in:</h1>
-                <h3 id="start-timer"></h3>
-            </div>
+                
+            </div>-->
 
             <div id="search">
-                <h1>Time Remaining:</h1>
+                <h3 id="start-timer"></h3>
+                <h3>Time Remaining:</h3>
                 <h3 id="game-timer"></h3>
                 <h2>seconds to search for movies with an actor that was also in</h2>
-                <h1 id="movie-header">Fantastic Beasts and Where to Find Them</h1>
+                <img id="poster-img">
+                <h3 id="movie-header"></h3>
                 <h2>Search here:</h2>
-                <form id="choose-movie">
-                    <div>
-                        <input type="text" id="search-bar" name="movie_header">
-                    </div>
-                </form>
+                <div>
+                    <input type="text" id="guess-search-bar" name="movie_header">
+                </div>
+                <button id="guesses">Guess</button>
             </div>
 
             <div id="after-game">
-                <h1>Open Movie Database Trivia Game Results</h1>
-                <h2>Want to play again?</h2>
+                <h2>Thanks for playing</h2>
+                <h3>Want to play again?</h3>
                 <button id="playAgain" type="submit">Yes</button>
                 <button id="noPlayAgain" type="submit">No</button>
             </div>
 
             <div id="final-score">
-                <h1>Open Movie Database Trivia Final Results</h1>
-                <h1>Thanks for playing!</h1>                
-                <h2>Your Score</h2>
-                <h2>42</h2>
-                <h2>Opponent's Score</h2>
-                <h2>24</h2>
+                <h2>Open Movie Database Trivia Final Results</h2>   
+                <h2 id="player1score">Your Score</h2>
+                
+                <h2 id="player2score">Opponent's Score</h2>
+                
+                <h3>Thanks for playing!</h3>    
             </div>
         </div>
 
@@ -126,35 +93,6 @@
                 <table id="player2-results">
                     <tr>
                         <th>Movie Title</th>
-                        <th class="points">Points</th>
-                    </tr>
-                    <tr>
-                        <td>Harry Potter 1</td>
-                        <td class="points">1</td>
-                    </tr>
-                    <tr>
-                        <td>Harry Potter 2</td>
-                        <td class="points">1</td>
-                    </tr>
-                    <tr>
-                        <td>Harry Potter 3</td>
-                        <td class="points">1</td>
-                    </tr>
-                    <tr>
-                        <td>Harry Potter 4</td>
-                        <td class="points">1</td>
-                    </tr>
-                    <tr>
-                        <td>Harry Potter 5</td>
-                        <td class="points">1</td>
-                    </tr>
-                    <tr>
-                        <td>Harry Potter 6</td>
-                        <td class="points">1</td>
-                    </tr>
-                    <tr>
-                        <td class="total">TOTAL</td>
-                        <td class="total">6</td>
                     </tr>
                 </table>
             </div>
@@ -163,5 +101,4 @@
     </div>
 </body>
 <script type="text/javascript" src="script.js"></script>
-
 </html>

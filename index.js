@@ -5,6 +5,8 @@ var io = require('socket.io')(http);
 var request = require('request');
 var port = process.env.PORT || 3000;
 
+var guessManager = require('./guessManager')
+
 app.use(express.static(__dirname + '/public'));
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -16,7 +18,6 @@ let whoPicks;
 let nextWhoPicks;
 let curMovie;
 let roundStarted = false;
-let guesses = [];
 
 io.on('connection', function (socket) {
   console.log('connection from clientid: ' + socket.id);
@@ -26,18 +27,20 @@ io.on('connection', function (socket) {
   });
 
   socket.on('join game', function (data) {
-    console.log('join game event');
-    console.log(data);
 
     //validation
-    if (data == undefined || data.clientid == undefined || io.sockets.connected[data.clientid] == undefined) return;
+    if (data == undefined || data.clientid == undefined || io.sockets.connected[data.clientid] == undefined){
+      io.to(data.clientid).emit('error', {
+        message: "something went wrong with id's"
+      });
+      return;
+    }
     if (gameStarted) {
       io.to(data.clientid).emit('error', {
         message: 'game already started'
       });
       return;
     }
-
     switch (players.size) {
       case 0:
         whoPicks = data.clientid;
@@ -45,12 +48,14 @@ io.on('connection', function (socket) {
         io.to(data.clientid).emit('join game', {
           joined: true
         });
+        break;
       case 1:
         nextWhoPicks = data.clientid;
         players.add(data.clientid);
         io.to(data.clientid).emit('join game', {
           joined: true
         });
+        break;
       default:
         io.to(data.clientid).emit('error', {
           message: 'game is full!'
@@ -60,9 +65,9 @@ io.on('connection', function (socket) {
 
     if (gameStarted == false && players.size == 2) {
       gameStarted = true;
-      for (let clientid of mySet.values()) {
+      for (let clientid of players.values()) {
         var yourTurn;
-        if (clientid == whoStarts) yourTurn = true;
+        if (clientid == whoPicks) yourTurn = true;
         else yourTurn = false;
         io.to(clientid).emit('start game', {
           yourTurn: yourTurn
@@ -72,18 +77,16 @@ io.on('connection', function (socket) {
   });
 
   socket.on('select movie', function (data) {
-    console.log('select movie event');
-    console.log(data);
-
     //validation
     if (data == undefined || data.clientid == undefined || io.sockets.connected[data.clientid] == undefined) return;
     if (!gameStarted) {
+      console.log('game is not started')
       io.to(data.clientid).emit('error', {
         message: 'game is not started'
       });
       return;
     }
-    if (players[data.clientid] == undefined) {
+    if (!players.has(data.clientid)) {
       io.to(data.clientid).emit('error', {
         message: 'you are not part of this game!'
       });
@@ -95,7 +98,7 @@ io.on('connection', function (socket) {
       });
       return;
     }
-    if (whoStarts != data.clientid) {
+    if (whoPicks != data.clientid) {
       io.to(data.clientid).emit('error', {
         message: 'it is not your turn to pick!'
       });
@@ -108,10 +111,8 @@ io.on('connection', function (socket) {
       return;
     }
 
-    request('http://www.omdbapi.com/?i=' + data.imdbId, function (error, response, body) {
+    request('http://www.omdbapi.com/?i='+data.imdbId+"&apikey=1dd6a07c", function (error, response, body) {
       if (!error && response.statusCode == 200) {
-        console.log(body)
-
         var info = JSON.parse(body);
         if (info.Response == false) {
           io.to(data.clientid).emit('error', {
@@ -120,35 +121,24 @@ io.on('connection', function (socket) {
           return;
         }
 
+        if(!guessManager.alreadyGuessed(info.imdbID)){
+          guessManager.addGuess(info,data.clientid)
+        }
+
         roundStarted = true;
-        guesses = [];
         io.emit('start round', {
+          movie: info,
           timer: 120,
           imdbId: data.imdbId
         })
-
-        setTimeout(function () {
-          io.emit('round end', {
-            //TODO: calculate points
-          });
-
           let temp = whoPicks;
           whoPicks = nextWhoPicks;
           nextWhoPicks = temp;
-
-          setTimeout(function () {
-            //TODO: start next round
-          }, 30000);
-
-        }, 120000);
       }
     });
   });
 
   socket.on('guess movie', function (data) {
-    console.log('guess movie event');
-    console.log(data);
-
     //validation
     if (data == undefined || data.clientid == undefined || io.sockets.connected[data.clientid] == undefined) return;
     if (!gameStarted) {
@@ -157,7 +147,7 @@ io.on('connection', function (socket) {
       });
       return;
     }
-    if (players[data.clientid] == undefined) {
+    if (!players.has(data.clientid)) {
       io.to(data.clientid).emit('error', {
         message: 'you are not part of this game!'
       });
@@ -169,56 +159,37 @@ io.on('connection', function (socket) {
       });
       return;
     }
-    if (data.imdbId == undefined) {
+    if (data.movie == undefined) {
       io.to(data.clientid).emit('error', {
-        message: 'you must send an imdbId!'
+        message: 'you must send a movie!'
       });
       return;
     }
-
-    request('http://www.omdbapi.com/?i=' + data.imdbId, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        console.log(body)
-
-        var info = JSON.parse(body);
-        if (info.Response == false) {
-          io.to(data.clientid).emit('error', {
-            message: 'you must send a valid imdbId!'
-          });
-          return;
+    if(!guessManager.alreadyGuessed(data.movie.imdbID)){
+        if(guessManager.addGuess(data.movie,data.clientid)){
+          io.sockets.emit('guess added', {
+            player : data.clientid,
+            title : data.movie.Title,
+            imdbId : data.movie.imdbID
+          })
         }
-
-        for (let clientid of mySet.values()) {
-          var yourGuess;
-          if (clientid == data.clientid) yourGuess = true;
-          else yourGuess = false;
-
-          var guessedFirst = true;
-          for (var i = 0; i < guesses.length; i++) {
-            if (guesses.imdbId == data.imdbId) {
-              guessedFirst = false;
-              break;
-            }
-          }
-
-          io.to(clientid).emit('guess result', {
-            yourGuess: yourGuess,
-            imdbId: data.imdbId,
-            guessedFirst: guessedFirst
-          });
+        else{
+          socket.emit('noncompliant')
         }
-
-        guesses.add({
-          clientid: data.clientid,
-          imdbId: data.imdbId
-        });
-      }
-    });
+    }
+    else{
+      socket.emit('already guessed')
+    }
 
   });
 
-});
+  socket.on('round end',function() {
+      let totals = guessManager.calcTotals();
+      socket.emit('points',totals);
+  });
 
+
+  });
 http.listen(port, function () {
   console.log('listening on *:' + port);
 });

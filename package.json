@@ -5,7 +5,9 @@
   "dependencies": {
     "express": "^4.15.2",
     "install": "^0.8.7",
-    "socket.io": "^1.7.3"
+    "socket.io": "^1.7.3",
+    "superagent": "^3.5.2",
+    "sweetalert2": "^6.6.5"
   },
   "scripts": {
     "start": "node index.js"
